@@ -8,15 +8,15 @@ const imgStyle = {
 
 const Addactivity = (props) => {
   const onClick = (type) => {
-    props.setAtivityType(type);
-    alert(type);
+    props.setActivityType(type);
+    // alert(type);
   }
     return (
-        <div className="activity-select" >
-        <h4>Add Your Activity</h4>
+        <div className="activity-select" style={{maxWidth: "1200px", margin: "0 auto"}} >
+        <h4 className="headText" >Add Your Activity</h4>
         <div className="phonecontent" id="activityphone">
     
-          <div className="text-center rounded">
+          <div className="text-center rounded" >
             <div className="banner-area">
               
               <img src="./images/running.png" className="banner" alt="running" style={imgStyle} onClick={() => onClick("running")}/>
