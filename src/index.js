@@ -22,7 +22,7 @@ ReactDOM.render(
       <Route path="/" element={<App />} />
       <Route path="ActivityHistory" element={<ActivityHistory />} />
     </Routes>
-  </BrowserRouter>,
+  </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

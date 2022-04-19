@@ -8,8 +8,8 @@ const Navbar = () => {
         <nav className="navbar navbar-expand-lg navbar-light bg-gray" style={{maxWidth: "1200px", margin: "0 auto"}}>
           <div className="container-fluid">
             <Link to="/" className="navbar-brand">
-              <h1>
-                <span><b style={{color: "orangered"}}>Exer</b>Notion</span>
+              <h1 className='nav-h1'>
+                <span className='nav-exer-1'><b className='nav-exer-2' style={{color: "#FEF5ED"}}>Exer</b>Notion</span>
               </h1>
             </Link>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

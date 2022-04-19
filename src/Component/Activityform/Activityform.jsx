@@ -1,11 +1,141 @@
-import React from "react";
-import './Activityform.css'
+import { useEffect, useState } from "react";
+import "./ActivityForm.css";
+import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
+// import React, { useEffect } from "react";
+// import './Activityform.css'
 
 const Activityform = (props) => {
+  const [activityName, setActivityName] = useState("");
+  const [activityDate, setActivityDate] = useState("");
+  const [activityDuration, setActivityDuration] = useState("");
+  const [activityDescription, setActivityDescription] = useState("");
+  const [activityType, setActivityType] = useState("");
+  const [isDateValid, setIsDateValid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(false);
+  const [isTypeValid, setIsTypeValid] = useState(false);
+  const [isDurationValid, setIsDurationValid] = useState(false);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(false);
+  const [isSubmitValid, setIsSubmitValid] = useState(false);
+  const [posts, setPost] = useState(null);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const handleChangeActivityName = (event) => {
+    const newValue = event.target.value;
+    if (newValue.length > 40) {
+      return;
+    } else {
+      setActivityName(event.target.value);
+    }
+  };
+
+  const handleChangeActivityDate = (event) => {
+    setActivityDate(event.target.value);
+  };
+
+  const handleChangeActivityDuration = (event) => {
+    setActivityDuration(event.target.value);
+  };
+
   const handleChangeActivityType = (event) => {
     props.setActivityType(event.target.value);
     console.log(handleChangeActivityType)
-  }
+  };
+
+  const handleChangeActivityDescription = (event) => {
+    setActivityDescription(event.target.value);
+  };
+
+  // validate activityName
+  useEffect(() => {
+    if (activityName.length >= 0 && activityName.length <= 40) {
+      setIsNameValid(true);
+    } else {
+      setIsNameValid(false);
+    }
+  }, [activityName]);
+
+  // validate activityDate
+  useEffect(() => {
+    if (activityDate !== "") {
+      setIsDateValid(true);
+    } else {
+      setIsDateValid(false);
+    }
+  }, [activityDate]);
+
+  // validate activityType
+  useEffect (() => {
+    const validTypes = [
+      "running",
+      "ping-pong",
+      "swimming",
+      "basketball",
+      "bike",
+      "dumbbell",
+      "boxing",
+      "yoga",
+      "tennis",
+      "golf",
+      "other",
+      "football",
+    ];
+    const isTypeValid = validTypes.includes(props.activityType);
+    setIsTypeValid(isTypeValid);
+    console.log(isTypeValid);
+  }, [props.activityType]);
+
+  // validate activityDuration
+  useEffect(() => {
+    if (activityDuration > 0 && activityDuration.length > 0) {
+      setIsDurationValid(true);
+    } else {
+      setIsDurationValid(false);
+    }
+  }, [activityDuration]);
+
+  // validate activityDescription
+  useEffect(() => {
+    if (activityDescription.length > 0 && activityDescription.length < 120) {
+      setIsDescriptionValid(true);
+    } else {
+      setIsDescriptionValid(false);
+    }
+  }, [activityDescription]);
+
+  // validate submit
+  const canSubmit =
+    isDateValid &&
+    isNameValid &&
+    isTypeValid &&
+    isDurationValid &&
+    isDescriptionValid;
+
+  const handleSubmit = () => {
+    if (canSubmit) {
+      let activity = {
+        activityDate: activityDate,
+        activityName: activityName,
+        activityDuration: activityDuration,
+        activityType: props.activityType,
+        activityDescription: activityDescription,
+      };
+      const client = axios.create({
+        baseURL: "http://localhost:3000",
+      });
+      client.post("activities", activity).then((Response) => {
+        navigate({
+          pathname: "/History",
+        });
+        setPost(Response.date).catch((error) => {
+          setError(error);
+        });
+      });
+    } else {
+      alert("Invalid value");
+    }
+  };
+
     return (
         <div className="activity-form" style={{maxWidth: "1200px", margin: "0 auto"}}>
         <div className="text-center rounded">

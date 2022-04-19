@@ -23,8 +23,7 @@ function App() {
         activityType={activityType}
         setActivityType={setActivityType}
       />
-      <Footer />
-    </div>
+      <Footer /></div>
     // <div >
       
     //   <Navbar />
